@@ -18,7 +18,7 @@ The original version of ReactCSS by casesandberg can be found [here](https://www
 
 * The use of lodash has changed. Now only the necessary lodash sub-modules are imported instead of the entire lodash module.
 
-* Added a new function `styleMerge` which allows for combining multiple ReactCSS styles:
+* Added a new function `styleMerge` which allows for combining multiple ReactCSS styles (can provide any number of styles):
 
 ```tsx
 const divColours = reactCSSExtra({
