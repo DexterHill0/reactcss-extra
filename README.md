@@ -1,6 +1,6 @@
 # reactcss-extra
 
-[![NPM](https://img.shields.io/npm/v/reactcss-extra.svg)](https://www.npmjs.com/package/react-pickers) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/reactcss-extra.svg)](https://www.npmjs.com/package/@dexterhill0/react-pickers) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 
 
