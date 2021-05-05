@@ -1,0 +1,33 @@
+{
+  "name": "@dexterhill0/reactcss-extra",
+  "version": "1.0.0",
+  "description": "ReactCSS with a few extra features",
+  "main": "src/index.js",
+  "type": "module",
+  "typings": "types/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "reactcss-extra"
+  },
+  "keywords": [
+    "react",
+    "reactcss",
+    "react-library",
+    "inline-css",
+    "inline-styling"
+  ],
+  "author": "DexterHill0",
+  "license": "MIT",
+  "dependencies": {
+    "lodash.assign": "^4.2.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.forown": "^4.4.0",
+    "lodash.isplainobject": "^4.0.6",
+    "lodash.isstring": "^4.0.1",
+    "lodash.map": "^4.6.0"
+  },
+  "devDependencies": {}
+}
