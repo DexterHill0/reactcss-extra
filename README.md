@@ -89,7 +89,7 @@ const styles = reactCSSExtra({
 *      fontSize: "30px",
 *   },
 *   div2: {
-*      fontWeight: "200",
+*      fontWeight: "400",
 *   }
 * }
 */
