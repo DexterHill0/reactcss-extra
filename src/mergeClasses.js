@@ -2,7 +2,6 @@ import _forOwn from "lodash.forown";
 import _cloneDeep from "lodash.cloneDeep";
 import _assign from "lodash.assign";
 import _map from "lodash.map";
-import _merge from "lodash.merge";
 
 const mergeClasses = (classes, activeNames = []) => {
 	const styles = (classes.default && _cloneDeep(classes.default)) || {};
