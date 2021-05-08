@@ -1,6 +1,6 @@
 import React from "react";
 
-export const active = (Component, Span = 'span') => {
+export const active = (Component, Span = "span") => {
 	return class Active extends React.Component {
 		state = { active: false }
 		handleMouseDown = () => this.setState({ active: true })

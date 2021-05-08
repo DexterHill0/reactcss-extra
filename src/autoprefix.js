@@ -72,9 +72,9 @@ const transforms = {
 		}
 	},
 	absolute: (value) => {
-		const direction = value && value.split(' ')
+		const direction = value && value.split(" ")
 		return {
-			position: 'absolute',
+			position: "absolute",
 			top: direction && direction[0],
 			right: direction && direction[1],
 			bottom: direction && direction[2],
@@ -87,7 +87,7 @@ const transforms = {
 			return otherStyle
 		}
 		return {
-			'extend': name,
+			"extend": name,
 		}
 	},
 }

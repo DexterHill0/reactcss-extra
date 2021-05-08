@@ -1,6 +1,6 @@
 import React from "react";
 
-export const hover = (Component, Span = 'span') => {
+export const hover = (Component, Span = "span") => {
 	return class Hover extends React.Component {
 		state = { hover: false }
 		handleMouseOver = () => this.setState({ hover: true })
