@@ -1,5 +1,5 @@
 import _forOwn from "lodash.forown";
-import _cloneDeep from "lodash.cloneDeep";
+import _cloneDeep from "lodash.clonedeep";
 import _assign from "lodash.assign";
 import _map from "lodash.map";
 
