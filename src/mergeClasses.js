@@ -1,6 +1,6 @@
 import _forOwn from "lodash.forown";
 import _cloneDeep from "lodash.clonedeep";
-import _assign from "lodash.assign";
+import _merge from "lodash.merge";
 import _map from "lodash.map";
 
 const mergeClasses = (classes, activeNames = []) => {
@@ -23,12 +23,12 @@ const mergeClasses = (classes, activeNames = []) => {
 }
 
 const mergeStyles = (destroyKeys, ...classes) => {
-	let styles = _assign({}, ...classes);
+	let styles = _merge({}, ...classes)["default"];
 
 	if (destroyKeys) {
 		let removed = {};
 		_forOwn(styles, function (_value, key) {
-			_assign(removed, styles[key]);
+			_merge(removed, styles[key]);
 		});
 
 		styles = removed;
