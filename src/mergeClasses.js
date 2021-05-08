@@ -23,7 +23,7 @@ const mergeClasses = (classes, activeNames = []) => {
 }
 
 const mergeStyles = (destroyKeys, ...classes) => {
-	let styles = _merge({}, ...classes)["default"];
+	let styles = _merge({}, ...classes);
 
 	if (destroyKeys) {
 		let removed = {};
