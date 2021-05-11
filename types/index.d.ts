@@ -39,7 +39,7 @@ type Expand<A extends any> = IntersectObjectArray<UnionToArray<ExpandTopKeys<A>>
  */
 type MergedClasses<B, C extends object[]> = B extends false ? IntersectObjectArray<C> : Expand<IntersectObjectArray<C>>;
 
-type Union<A, B> = A & B;
+type Intersect<A, B> = A & B;
 
 
 interface LoopableProps extends React.Props<any> {
@@ -56,10 +56,10 @@ interface HoverProps<T> extends React.Props<T> {
 
 interface Classes<T> {
 	default: {
-		[K in keyof T]?: Partial<Union<T[K], _.Properties>>;
+		[K in keyof T]?: Partial<Intersect<T[K], _.Properties>>;
 	}
 	[scope: string]: {
-		[K in keyof T]?: Partial<Union<T[K], _.Properties>>;
+		[K in keyof T]?: Partial<Intersect<T[K], _.Properties>>;
 	}
 }
 
