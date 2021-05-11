@@ -96,3 +96,17 @@ const styles = reactCSSExtra({
 ```
 
 * `reactCSS` became `reactCSSExtra`
+
+
+
+## Change log
+
+### Version 1.20
+
+* Added proper typings for the `styleMerge` function. It no longer just returns `object` but actually the combined objects provided. It also removed the keys if you specify, but it's pretty unoptimised.
+* Fixed typings for `reactCSSExtra`. An attribute like position that used the type `"absolute" | "relative" | ...` rather than just `string` would error because `string is not assignable to type "absolute" | "relative" | ...`.
+
+ 
+
+
+
