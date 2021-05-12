@@ -2,42 +2,31 @@ import React from "react";
 
 import * as _ from "csstype"
 
-//https://github.com/microsoft/TypeScript/issues/13298#issuecomment-707364842
-type UnionToArray<T> = (
-	(
-		(
-			T extends any
-			? (t: T) => T
-			: never
-		) extends infer U
-		? (U extends any
-			? (u: U) => any
-			: never
-		) extends (v: infer V) => any
-		? V
-		: never
-		: never
-	) extends (_: any) => infer W
-	? [...UnionToArray<Exclude<T, W>>, W]
-	: []
-);
-
-
-//https://stackoverflow.com/questions/67475386/typescript-generics-loop-over-object-array-and-intersect-them
-type IntersectObjectArray<A extends any> = A extends [infer T, ...infer R] ? T & IntersectObjectArray<R> : unknown
-
+//https://stackoverflow.com/questions/67491438/
 /**
- * My limited TS knowledge means that it's probably possible to expand the objects with just one type without any union to array stuff, but
- * at least it works, right?
+ * New and improved typings!
  */
-type ExpandTopKeys<A extends any> = A extends { [key: string]: infer X } ? { [K in keyof X]: X[K] } : unknown
-type Expand<A extends any> = IntersectObjectArray<UnionToArray<ExpandTopKeys<A>>>;
+type ToUniqueTypes<T> =
+	((
+		{
+			[K in keyof T]-?: (x: {
+				[Z in keyof T[K]]: (y: T[K][Z]) => void;
+			}) => void;
+		}[keyof T]) extends
+		((x: infer I) => void) ? I : never
+	);
 
-/**
- * "B" is "destroyTopLevelKeys". If it is false, it will just intersect the objects.
- * If true, it will intersect them, remove the top keys, convert from a union to array and again, intersect those objects
- */
-type MergedClasses<B, C extends object[]> = B extends false ? IntersectObjectArray<C> : Expand<IntersectObjectArray<C>>;
+type MergeProperties<T> = {
+	[J in keyof T]: T[J] extends ((y: infer X) => void) ? X : never;
+}
+
+type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
+
+type Overwrite<A, B> = B & Omit<A, keyof B>;
+
+type MergedClasses<T extends readonly any[]> = Expand<T extends readonly [infer L, ...infer I] ?
+	Overwrite<MergeProperties<ToUniqueTypes<L>>, MergedClasses<I>> : unknown>;
+
 
 type Intersect<A, B> = A & B;
 
@@ -63,11 +52,10 @@ interface Classes<T> {
 	}
 }
 
-
 export type CSS = React.CSSProperties;
 export default function reactCSSExtra<T>(classes: Classes<T>, ...activations: Array<any>): T;
 
-export function styleMerge<B extends boolean, T extends object[]>(destroyTopLevelKeys: B, ...classes: T): MergedClasses<B, T>;
+export function styleMerge<B extends boolean, T extends any[]>(destroyTopLevelKeys: B, ...classes: T): MergedClasses<T>;
 
 export function hover<A>(component: React.ComponentClass<A> | React.FunctionComponent<A>): React.ComponentClass<A>;
 export function loop(index: number, length: number): LoopableProps;
