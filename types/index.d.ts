@@ -1,12 +1,16 @@
 import React from "react";
 
-import * as _ from "csstype"
+import * as _ from "csstype";
+
+type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
+type Intersect<A, B> = A & B;
+type Overwrite<A, B> = B & Omit<A, keyof B>;
 
 //https://stackoverflow.com/questions/67491438/
 /**
  * New and improved typings!
  */
-type ToUniqueTypes<T> =
+type ToUniqueTypes<B, T> = B extends true ?
 	((
 		{
 			[K in keyof T]-?: (x: {
@@ -14,21 +18,29 @@ type ToUniqueTypes<T> =
 			}) => void;
 		}[keyof T]) extends
 		((x: infer I) => void) ? I : never
-	);
+	) : ((
+		{
+			[K in keyof T]-?: {
+				[Z in keyof T[K]]: (y: T[K][Z]) => void
+			}
+		})
+	)
 
-type MergeProperties<T> = {
+
+type MergeProperties<B, T> = B extends true ? {
 	[J in keyof T]: T[J] extends ((y: infer X) => void) ? X : never;
+} :
+	{
+		[J in keyof T]: {
+			[X in keyof T[J]]: T[J][X] extends ((y: infer Z) => void) ? Z : T[J][X]
+		}
 }
 
-type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
+type MergedWithoutTop<T extends readonly any[]> = Expand<T extends readonly [infer L, ...infer I] ?
+	Overwrite<MergeProperties<true, ToUniqueTypes<true, L>>, MergedWithoutTop<I>> : unknown>;
 
-type Overwrite<A, B> = B & Omit<A, keyof B>;
-
-type MergedClasses<T extends readonly any[]> = Expand<T extends readonly [infer L, ...infer I] ?
-	Overwrite<MergeProperties<ToUniqueTypes<L>>, MergedClasses<I>> : unknown>;
-
-
-type Intersect<A, B> = A & B;
+type MergedWithTop<T extends readonly any[]> = MergeProperties<false, T extends readonly [infer L, ...infer I] ?
+	ToUniqueTypes<false, L> & MergedWithTop<I> : unknown>
 
 
 interface LoopableProps extends React.Props<any> {
@@ -55,7 +67,7 @@ interface Classes<T> {
 export type CSS = React.CSSProperties;
 export default function reactCSSExtra<T>(classes: Classes<T>, ...activations: Array<any>): T;
 
-export function styleMerge<B extends boolean, T extends any[]>(destroyTopLevelKeys: B, ...classes: T): MergedClasses<T>;
+export function styleMerge<B extends boolean, T extends any[]>(destroyTopLevelKeys: B, ...classes: T): B extends false ? MergedWithTop<T> : MergedWithoutTop<T>;
 
 export function hover<A>(component: React.ComponentClass<A> | React.FunctionComponent<A>): React.ComponentClass<A>;
 export function loop(index: number, length: number): LoopableProps;

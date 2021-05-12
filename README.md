@@ -101,6 +101,13 @@ const styles = reactCSSExtra({
 
 ## Change log
 
+### Version 1.2.4
+* Small issue that I fixed when changing the `styleMerge` typings (when `destroyTopLevelKeys` was `true`) I also fixed when `destroyTopLevelKeys` was `false`
+**NOTE:** For instance when `D = styleMerge(false, X, Y)`, `D` will inherit keys from ***X***, so just be careful!
+
+### Version 1.2.3*
+* I always leave stuff out when doing tests and I never put it back, so I put that stuff back
+
 ### Version 1.2.2
 * Improved the `styleMerge` typings. Made them more optimised and fixed? it even though I don't know whether it was actually broken.
 
