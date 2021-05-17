@@ -1,10 +1,11 @@
 import React from "react";
 
-import * as _ from "csstype";
+import * as _ from "csstype"
 
+type Union<A, B> = A | B;
 type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
-type Intersect<A, B> = A & B;
 type Overwrite<A, B> = B & Omit<A, keyof B>;
+
 
 //https://stackoverflow.com/questions/67491438/
 /**
@@ -26,15 +27,14 @@ type ToUniqueTypes<B, T> = B extends true ?
 		})
 	)
 
-
 type MergeProperties<B, T> = B extends true ? {
 	[J in keyof T]: T[J] extends ((y: infer X) => void) ? X : never;
-} :
-	{
+} : {
 		[J in keyof T]: {
 			[X in keyof T[J]]: T[J][X] extends ((y: infer Z) => void) ? Z : T[J][X]
 		}
 }
+
 
 type MergedWithoutTop<T extends readonly any[]> = Expand<T extends readonly [infer L, ...infer I] ?
 	Overwrite<MergeProperties<true, ToUniqueTypes<true, L>>, MergedWithoutTop<I>> : unknown>;
@@ -57,10 +57,10 @@ interface HoverProps<T> extends React.Props<T> {
 
 interface Classes<T> {
 	default: {
-		[K in keyof T]?: Partial<Intersect<T[K], _.Properties>>;
+		[K in keyof T]?: Partial<Union<T[K], _.Properties<string>>>;
 	}
 	[scope: string]: {
-		[K in keyof T]?: Partial<Intersect<T[K], _.Properties>>;
+		[K in keyof T]?: Partial<Union<T[K], _.Properties<string>>>;
 	}
 }
 
