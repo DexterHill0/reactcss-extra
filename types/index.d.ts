@@ -1,11 +1,25 @@
 import React from "react";
 
-import * as _ from "csstype"
+import * as _ from "csstype";
 
-type Union<A, B> = A | B;
+
+export type CSS = React.CSSProperties;
+
+interface LoopableProps extends React.Props<any> {
+	"nth-child": number;
+	"first-child"?: boolean;
+	"last-child"?: boolean;
+	even?: boolean;
+	odd?: boolean;
+}
+
+interface HoverProps<T> extends React.Props<T> {
+	hover?: boolean;
+}
+
+
 type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
 type Overwrite<A, B> = B & Omit<A, keyof B>;
-
 
 //https://stackoverflow.com/questions/67491438/
 /**
@@ -35,36 +49,25 @@ type MergeProperties<B, T> = B extends true ? {
 		}
 }
 
-
 type MergedWithoutTop<T extends readonly any[]> = Expand<T extends readonly [infer L, ...infer I] ?
 	Overwrite<MergeProperties<true, ToUniqueTypes<true, L>>, MergedWithoutTop<I>> : unknown>;
 
 type MergedWithTop<T extends readonly any[]> = MergeProperties<false, T extends readonly [infer L, ...infer I] ?
 	ToUniqueTypes<false, L> & MergedWithTop<I> : unknown>
 
-
-interface LoopableProps extends React.Props<any> {
-	"nth-child": number;
-	"first-child"?: boolean;
-	"last-child"?: boolean;
-	even?: boolean;
-	odd?: boolean;
-}
-
-interface HoverProps<T> extends React.Props<T> {
-	hover?: boolean;
+interface CustomCSSProperties extends _.Properties<string | number, number> {
+	[index: string]: _.Properties<string | number, number> | unknown;
 }
 
 interface Classes<T> {
-	default: {
-		[K in keyof T]?: Partial<Union<T[K], _.Properties<string>>>;
+	default: T & {
+		[K in keyof T]?: CustomCSSProperties;
 	}
-	[scope: string]: {
-		[K in keyof T]?: Partial<Union<T[K], _.Properties<string>>>;
+	[scope: string]: T & {
+		[K in keyof T]?: CustomCSSProperties;
 	}
 }
 
-export type CSS = React.CSSProperties;
 export default function reactCSSExtra<T>(classes: Classes<T>, ...activations: Array<any>): T;
 
 export function styleMerge<B extends boolean, T extends any[]>(destroyTopLevelKeys: B, ...classes: T): B extends false ? MergedWithTop<T> : MergedWithoutTop<T>;

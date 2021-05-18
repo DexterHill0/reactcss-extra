@@ -101,6 +101,9 @@ const styles = reactCSSExtra({
 
 ## Change log
 
+### Version 1.2.6
+* Fixed more issues that I don't find because I don't test properly
+
 ### Version 1.2.5
 * Fixed issue to do with extra scopes
 
